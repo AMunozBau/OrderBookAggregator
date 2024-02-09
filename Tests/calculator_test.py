@@ -4,10 +4,12 @@ from Objects.Core.Book import OrderBook
 
 
 def test_calculate_avg_price_1():
+    # Create an OrderBook with sample bids and asks
     aggregated_book = OrderBook()
     aggregated_book.update_bids([['45000', '0.1'], ['44900', '0.2'], ['44800', '0.3']])
     aggregated_book.update_asks([['45500', '0.2'], ['45600', '0.25'], ['45700', '0.3']])
 
+    # Test various target quantities and expected average buy/sell prices
     assert aggregated_book.calculate_average_price(0.01) == (45500.0, 45000.0)
     assert aggregated_book.calculate_average_price(0.1) == (45500.0, 45000.0)
     assert aggregated_book.calculate_average_price(0.2) == (45500, 44950.0)

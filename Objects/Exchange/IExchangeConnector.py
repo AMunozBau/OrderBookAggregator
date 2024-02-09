@@ -1,5 +1,5 @@
 class BaseExchangeConnector:
-    def GetOrderBook(self, symbol):
+    def get_order_book(self, symbol):
         pass
 
     def print_order_book(self):

@@ -3,27 +3,37 @@ from Objects.Core.Price import PriceData
 
 class OrderBook:
     def __init__(self):
+        # Initialize empty lists for asks and bids
         self.asks = []
         self.bids = []
 
     def __repr__(self):
+        # String representation of the order book
         return f"Asks: {self.asks}\nBids: {self.bids}"
 
     def update_bids(self, bids):
+        # Update bids with new data
+        # Convert input data to PriceData objects and round values
         self.bids = [PriceData(round(float(price), 2), round(float(amount), 7)) for price, amount in bids]
 
     def update_asks(self, asks):
+        # Update asks with new data
+        # Convert input data to PriceData objects and round values
         self.asks = [PriceData(round(float(price), 2), round(float(amount), 7)) for price, amount in asks]
 
-    def calculate_average_price(order_book, target_quantity=10.0):
-        def calculate_weighted_average(entries):
-            total_price = sum(entry.price * entry.amount for entry in entries)
-            total_quantity = sum(entry.amount for entry in entries)
+    def calculate_average_price(self, target_quantity=10.0):
+        # Static method to calculate average buy and sell prices for a target quantity given an order book
+
+        def calculate_weighted_average(fills):
+            # Helper function to calculate the weighted average of a list of fills
+            total_price = sum(entry.price * entry.amount for entry in fills)
+            total_quantity = sum(entry.amount for entry in fills)
             return total_price / total_quantity if total_quantity != 0 else 0.0
 
+        # Buys calculations
         buy_amount = 0.0
         buy_fills = []
-        for ask_level in order_book.asks:
+        for ask_level in self.asks:
             if buy_amount + ask_level.amount > target_quantity:
                 fill = PriceData(ask_level.price, target_quantity-buy_amount)
                 buy_fills.append(fill)
@@ -33,9 +43,10 @@ class OrderBook:
                 buy_fills.append(ask_level)
                 buy_amount += ask_level.amount
 
+        # Sells calculations
         sell_amount = 0.0
         sell_fills = []
-        for bid_level in order_book.bids:
+        for bid_level in self.bids:
             if sell_amount + bid_level.amount > target_quantity:
                 fill = PriceData(bid_level.price, target_quantity-sell_amount)
                 sell_fills.append(fill)
@@ -45,6 +56,7 @@ class OrderBook:
                 sell_fills.append(bid_level)
                 sell_amount += bid_level.amount
 
+        # Calculate average buy and sell prices
         average_buy_price = calculate_weighted_average(buy_fills)
         average_sell_price = calculate_weighted_average(sell_fills)
 

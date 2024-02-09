@@ -7,6 +7,7 @@ from Utils.Agregator import OrderBookAggegator
 FLOAT_TOLERANCE = 1e-10
 
 
+# Helper function to assert equality of order books
 def assert_order_books_equal(book1, book2):
     assert len(book1.asks) == len(book2.asks)
     for entry1, entry2 in zip(book1.asks, book2.asks):
@@ -19,6 +20,7 @@ def assert_order_books_equal(book1, book2):
         assert abs(entry1.amount - entry2.amount) < FLOAT_TOLERANCE
 
 
+# Fixture for sample order books with the same depth
 @pytest.fixture
 def sample_order_books_same_size():
     order_book_1 = OrderBook()
@@ -40,6 +42,7 @@ def sample_order_books_same_size():
     return order_book_1, order_book_2, order_book_3, expcted_book
 
 
+# Test for aggregating order books with the same size
 def test_aggregate_books_same_size(sample_order_books_same_size):
     order_book_1, order_book_2, order_book_3, expcted_book = sample_order_books_same_size
 
@@ -49,6 +52,7 @@ def test_aggregate_books_same_size(sample_order_books_same_size):
     assert_order_books_equal(aggregated_book, expcted_book)
 
 
+# Fixture for sample order books with different sizes
 @pytest.fixture
 def sample_order_books_different_size():
     order_book_1 = OrderBook()
@@ -70,6 +74,7 @@ def sample_order_books_different_size():
     return order_book_1, order_book_2, order_book_3, expcted_book
 
 
+# Test for aggregating order books with different sizes
 def test_aggregate_books_different_size(sample_order_books_different_size):
     order_book_1, order_book_2, order_book_3, expcted_book = sample_order_books_different_size
 
@@ -79,6 +84,7 @@ def test_aggregate_books_different_size(sample_order_books_different_size):
     assert_order_books_equal(aggregated_book, expcted_book)
 
 
+# Fixture for sample order books with only two books
 @pytest.fixture
 def sample_order_2_books():
     order_book_1 = OrderBook()
@@ -96,6 +102,7 @@ def sample_order_2_books():
     return order_book_1, order_book_2, expcted_book
 
 
+# Test for aggregating only two order books
 def test_aggregate_2_books(sample_order_2_books):
     order_book_1, order_book_2, expcted_book = sample_order_2_books
 
