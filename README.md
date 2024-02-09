@@ -45,5 +45,3 @@ You can pass optional arguments when running the script:
     ```
 
     Replace `15` with the target amount, and `true` to indicate the use of the Kraken exchange.
-
-Adjust the arguments based on your application's requirements.
