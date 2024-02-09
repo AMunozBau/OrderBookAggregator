@@ -16,8 +16,8 @@ class GeminiConnector(BaseExchangeConnector):
             return None            
         
         response_json = response.json()
-        asks_list = [[asks['price'], asks['amount'], asks['timestamp'], ''] for asks in response_json["asks"][:3]]
-        bids_list = [[bids['price'], bids['amount'], bids['timestamp'], ''] for bids in response_json["bids"][:3]]
+        asks_list = [[asks['price'], asks['amount']] for asks in response_json["asks"][:3]]
+        bids_list = [[bids['price'], bids['amount']] for bids in response_json["bids"][:3]]
 
         order_book = OrderBook()
         order_book.update_bids(bids_list)
