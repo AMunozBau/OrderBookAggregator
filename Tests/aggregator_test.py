@@ -1,7 +1,6 @@
 import pytest
 
 from Objects.Core.Book import OrderBook
-from Objects.Core.Price import PriceData
 
 from Utils.Agregator import OrderBookAggegator
 

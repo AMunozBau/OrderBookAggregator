@@ -15,8 +15,8 @@ class CoinBaseConnector(BaseExchangeConnector):
             return None            
         
         response_json = response.json()
-        asks_list = [[asks[0], asks[1]] for asks in response_json["asks"][:3]]
-        bids_list = [[bids[0], bids[1]] for bids in response_json["bids"][:3]]
+        asks_list = [[asks[0], asks[1]] for asks in response_json["asks"]]
+        bids_list = [[bids[0], bids[1]] for bids in response_json["bids"]]
 
         order_book = OrderBook()
         order_book.update_bids(bids_list)

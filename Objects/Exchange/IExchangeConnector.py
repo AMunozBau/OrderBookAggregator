@@ -4,4 +4,3 @@ class BaseExchangeConnector:
 
     def print_order_book(self):
         print(self.order_book)
-        # print("bids: ", self.order_book.bids)
