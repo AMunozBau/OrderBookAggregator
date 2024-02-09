@@ -11,11 +11,10 @@ class OrderBookAggegator:
         aggregated_order_book = OrderBook()
 
         # Aggregate bids
-        coinbase_bids = self.coinbase_book.bids
-        gemini_bids = self.gemini_book.bids
-        kraken_bids = self.kraken_book.bids
+        books_bids = self.coinbase_book.bids + self.gemini_book.bids
+        if self.kraken_book: books_bids = self.coinbase_book.bids + self.gemini_book.bids + self.kraken_book.bids
         aggregated_bids = {}
-        for entry in coinbase_bids + gemini_bids + kraken_bids:
+        for entry in books_bids:
             if entry.price in aggregated_bids:
                 aggregated_bids[entry.price] += entry.amount
             else:
@@ -24,11 +23,10 @@ class OrderBookAggegator:
         aggregated_order_book.bids = [PriceData(price, aggregated_bids[price]) for price in sorted(aggregated_bids.keys(), reverse=True)]
 
         # Aggregate asks
-        coinbase_asks = self.coinbase_book.asks
-        gemini_asks = self.gemini_book.asks
-        kraken_asks = self.kraken_book.asks
+        books_asks = self.coinbase_book.asks + self.gemini_book.asks
+        if self.kraken_book:   books_asks = self.coinbase_book.asks + self.gemini_book.asks + self.kraken_book.asks
         aggregated_asks = {}
-        for entry in coinbase_asks + gemini_asks + kraken_asks:
+        for entry in books_asks:
             if entry.price in aggregated_asks:
                 aggregated_asks[entry.price] += entry.amount
             else:
