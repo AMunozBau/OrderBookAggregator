@@ -1,5 +1,6 @@
 from Objects.Core.Price import PriceData
 
+
 class OrderBook:
     def __init__(self):
         self.asks = []
@@ -9,12 +10,11 @@ class OrderBook:
         return f"Asks: {self.asks}\nBids: {self.bids}"
 
     def update_bids(self, bids):
-        self.bids = [PriceData(round(float(price),2), round(float(amount),7)) for price, amount in bids]
+        self.bids = [PriceData(round(float(price), 2), round(float(amount), 7)) for price, amount in bids]
 
     def update_asks(self, asks):
-        self.asks = [PriceData(round(float(price),2), round(float(amount),7)) for price, amount in asks]
+        self.asks = [PriceData(round(float(price), 2), round(float(amount), 7)) for price, amount in asks]
 
-    
     def calculate_average_price(order_book, target_quantity=10.0):
         def calculate_weighted_average(entries):
             total_price = sum(entry.price * entry.amount for entry in entries)
@@ -25,7 +25,7 @@ class OrderBook:
         buy_fills = []
         for ask_level in order_book.asks:
             if buy_amount + ask_level.amount > target_quantity:
-                fill = PriceData(ask_level.price,target_quantity-buy_amount)
+                fill = PriceData(ask_level.price, target_quantity-buy_amount)
                 buy_fills.append(fill)
                 buy_amount += target_quantity-buy_amount
                 break
@@ -37,7 +37,7 @@ class OrderBook:
         sell_fills = []
         for bid_level in order_book.bids:
             if sell_amount + bid_level.amount > target_quantity:
-                fill = PriceData(bid_level.price,target_quantity-sell_amount)
+                fill = PriceData(bid_level.price, target_quantity-sell_amount)
                 sell_fills.append(fill)
                 sell_amount += target_quantity-sell_amount
                 break
@@ -49,5 +49,3 @@ class OrderBook:
         average_sell_price = calculate_weighted_average(sell_fills)
 
         return average_buy_price, average_sell_price
-
-   

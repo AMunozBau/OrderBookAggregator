@@ -8,7 +8,7 @@ class KrakenConnector(BaseExchangeConnector):
         base_url = 'https://api.kraken.com'
         url = f'{base_url}/0/public/Depth?pair={symbol}&count=10'
         response = requests.get(url)
-        
+
         if response.status_code != 200:
             print(f'Error: {response.status_code}')
             return None            
@@ -21,8 +21,8 @@ class KrakenConnector(BaseExchangeConnector):
         order_book.update_bids(bids_list)
         order_book.update_asks(asks_list)
 
-        self.order_book =  order_book
-    
+        self.order_book = order_book
+
     def print_order_book(self):
         print("")
         print("KRAKEN:")

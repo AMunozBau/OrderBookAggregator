@@ -3,8 +3,5 @@ class PriceData:
         self.price = price
         self.amount = amount 
 
-
     def __repr__(self):
         return f"[Price: {self.price} Amount: {self.amount}]"
-   
-   

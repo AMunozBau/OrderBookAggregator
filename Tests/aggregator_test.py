@@ -6,6 +6,7 @@ from Utils.Agregator import OrderBookAggegator
 
 FLOAT_TOLERANCE = 1e-10
 
+
 def assert_order_books_equal(book1, book2):
     assert len(book1.asks) == len(book2.asks)
     for entry1, entry2 in zip(book1.asks, book2.asks):
@@ -16,6 +17,7 @@ def assert_order_books_equal(book1, book2):
     for entry1, entry2 in zip(book1.bids, book2.bids):
         assert abs(entry1.price - entry2.price) < FLOAT_TOLERANCE
         assert abs(entry1.amount - entry2.amount) < FLOAT_TOLERANCE
+
 
 @pytest.fixture
 def sample_order_books_same_size():
@@ -37,14 +39,14 @@ def sample_order_books_same_size():
 
     return order_book_1, order_book_2, order_book_3, expcted_book
 
+
 def test_aggregate_books_same_size(sample_order_books_same_size):
     order_book_1, order_book_2, order_book_3, expcted_book = sample_order_books_same_size
 
     aggreator = OrderBookAggegator(order_book_1, order_book_2, order_book_3)
-    aggregated_book = aggreator.aggregate()    
+    aggregated_book = aggreator.aggregate()
 
     assert_order_books_equal(aggregated_book, expcted_book)
-
 
 
 @pytest.fixture
@@ -67,6 +69,7 @@ def sample_order_books_different_size():
 
     return order_book_1, order_book_2, order_book_3, expcted_book
 
+
 def test_aggregate_books_different_size(sample_order_books_different_size):
     order_book_1, order_book_2, order_book_3, expcted_book = sample_order_books_different_size
 
@@ -74,6 +77,7 @@ def test_aggregate_books_different_size(sample_order_books_different_size):
     aggregated_book = aggreator.aggregate()    
 
     assert_order_books_equal(aggregated_book, expcted_book)
+
 
 @pytest.fixture
 def sample_order_2_books():
@@ -90,6 +94,7 @@ def sample_order_2_books():
     expcted_book.update_asks([['45500', '0.4'], ['45600', '0.5'], ['45700', '0.6'], ['45800', '0.4'], ['45900', '0.5']])
 
     return order_book_1, order_book_2, expcted_book
+
 
 def test_aggregate_2_books(sample_order_2_books):
     order_book_1, order_book_2, expcted_book = sample_order_2_books
