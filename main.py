@@ -2,6 +2,8 @@ from Objects.Exchange.CoinBase import CoinBaseConnector
 from Objects.Exchange.Gemini import GeminiConnector
 from Objects.Exchange.Kraken import KrakenConnector
 
+from Utils.Agregator import OrderBookAggegator
+
 
     
 if __name__ == '__main__':
@@ -21,3 +23,9 @@ if __name__ == '__main__':
     kraken_connector = KrakenConnector()
     kraken_connector.GetOrderBook(symbol)
     kraken_connector.print_order_book()
+
+    aggreator = OrderBookAggegator(coinbase_connector.order_book, gemini_connector.order_book, kraken_connector.order_book)
+    agregated_book = aggreator.aggregate()
+    print("")
+    print("AGGREGATED:")
+    print(agregated_book)

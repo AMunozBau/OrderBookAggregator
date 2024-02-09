@@ -6,5 +6,7 @@ class PriceData:
         self.n_orders = n_orders
 
     def __repr__(self):
-        return f"[Price: {self.price} Amount: {self.amount} Timestamp: {self.timestamp}, Orders: {self.n_orders}]"
+        # return f"[Price: {self.price} Amount: {self.amount} Timestamp: {self.timestamp}, Orders: {self.n_orders}]"
+        return f"[Price: {self.price} Amount: {self.amount}]"
+   
    
