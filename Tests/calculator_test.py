@@ -15,7 +15,3 @@ def test_calculate_avg_price_1():
     assert aggregated_book.calculate_average_price(0.4) == (45550.0, 44900.0)
     assert aggregated_book.calculate_average_price(0.5) == (45570.0, 44880.0)
     assert aggregated_book.calculate_average_price(0.6) == pytest.approx((45591.66, 44866.66))
-
-
-
-

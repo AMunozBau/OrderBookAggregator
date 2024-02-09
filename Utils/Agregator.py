@@ -21,9 +21,8 @@ class OrderBookAggegator:
                 aggregated_bids[entry.price] += entry.amount
             else:
                 aggregated_bids[entry.price] = entry.amount
-            
-        aggregated_order_book.bids = [PriceData(price, aggregated_bids[price]) for price in sorted(aggregated_bids.keys(),
-                                                                                                   reverse=True)]
+
+        aggregated_order_book.bids = [PriceData(price, aggregated_bids[price]) for price in sorted(aggregated_bids.keys(), reverse=True)]
 
         # Aggregate asks
         books_asks = self.coinbase_book.asks + self.gemini_book.asks

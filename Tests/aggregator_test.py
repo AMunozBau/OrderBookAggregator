@@ -74,7 +74,7 @@ def test_aggregate_books_different_size(sample_order_books_different_size):
     order_book_1, order_book_2, order_book_3, expcted_book = sample_order_books_different_size
 
     aggreator = OrderBookAggegator(order_book_1, order_book_2, order_book_3)
-    aggregated_book = aggreator.aggregate()    
+    aggregated_book = aggreator.aggregate()
 
     assert_order_books_equal(aggregated_book, expcted_book)
 
@@ -100,6 +100,6 @@ def test_aggregate_2_books(sample_order_2_books):
     order_book_1, order_book_2, expcted_book = sample_order_2_books
 
     aggreator = OrderBookAggegator(order_book_1, order_book_2, None)
-    aggregated_book = aggreator.aggregate()    
+    aggregated_book = aggreator.aggregate()
 
     assert_order_books_equal(aggregated_book, expcted_book)

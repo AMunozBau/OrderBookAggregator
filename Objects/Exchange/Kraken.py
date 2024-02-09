@@ -11,7 +11,7 @@ class KrakenConnector(BaseExchangeConnector):
 
         if response.status_code != 200:
             print(f'Error: {response.status_code}')
-            return None            
+            return None
 
         response_json = response.json()["result"][symbol]
         asks_list = [[asks[0], asks[1]] for asks in response_json["asks"]]
