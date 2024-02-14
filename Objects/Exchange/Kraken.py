@@ -21,8 +21,8 @@ class KrakenConnector(BaseExchangeConnector):
         response_json = response.json()["result"][symbol]
 
         # Extract ask and bid data from the response
-        asks_list = [[asks[0], asks[1]] for asks in response_json["asks"]]
-        bids_list = [[bids[0], bids[1]] for bids in response_json["bids"]]
+        asks_list = [[asks[0], {"KRAKEN": asks[1]}] for asks in response_json["asks"]]
+        bids_list = [[bids[0], {"KRAKEN": bids[1]}] for bids in response_json["bids"]]
 
         # Create an OrderBook object and update it with the retrieved data
         order_book = OrderBook()

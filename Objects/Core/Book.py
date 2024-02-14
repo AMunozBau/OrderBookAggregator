@@ -14,50 +14,33 @@ class OrderBook:
     def update_bids(self, bids):
         # Update bids with new data
         # Convert input data to PriceData objects and round values
-        self.bids = [PriceData(round(float(price), 2), round(float(amount), 7)) for price, amount in bids]
+        self.bids = [PriceData(round(float(price), 2), dict_exchange) for price, dict_exchange in bids]
 
     def update_asks(self, asks):
         # Update asks with new data
         # Convert input data to PriceData objects and round values
-        self.asks = [PriceData(round(float(price), 2), round(float(amount), 7)) for price, amount in asks]
+        self.asks = [PriceData(round(float(price), 2), dict_exchange) for price, dict_exchange in asks]
 
-    def calculate_average_price(self, target_quantity=10.0):
-        # Static method to calculate average buy and sell prices for a target quantity given an order book
-
-        def calculate_weighted_average(fills):
-            # Helper function to calculate the weighted average of a list of fills
-            total_price = sum(entry.price * entry.amount for entry in fills)
-            total_quantity = sum(entry.amount for entry in fills)
-            return total_price / total_quantity if total_quantity != 0 else 0.0
-
-        # Buys calculations
+    def calculate_buy_limit_order_prices(self, target_quantity=10.0):
         buy_amount = 0.0
-        buy_fills = []
+        buy_limit_orders_dict = {}
         for ask_level in self.asks:
-            if buy_amount + ask_level.amount > target_quantity:
-                fill = PriceData(ask_level.price, target_quantity-buy_amount)
-                buy_fills.append(fill)
-                buy_amount += target_quantity-buy_amount
-                break
-            else:
-                buy_fills.append(ask_level)
-                buy_amount += ask_level.amount
-
-        # Sells calculations
-        sell_amount = 0.0
-        sell_fills = []
-        for bid_level in self.bids:
-            if sell_amount + bid_level.amount > target_quantity:
-                fill = PriceData(bid_level.price, target_quantity-sell_amount)
-                sell_fills.append(fill)
-                sell_amount += target_quantity-sell_amount
-                break
-            else:
-                sell_fills.append(bid_level)
-                sell_amount += bid_level.amount
-
-        # Calculate average buy and sell prices
-        average_buy_price = calculate_weighted_average(buy_fills)
-        average_sell_price = calculate_weighted_average(sell_fills)
-
-        return average_buy_price, average_sell_price
+            for exchange_name in ask_level.amount_dict.keys():
+                if buy_amount + float(ask_level.amount_dict[exchange_name]) > target_quantity:
+                    level_amount = target_quantity-buy_amount
+                    level_price = ask_level.price
+                    if exchange_name in buy_limit_orders_dict:
+                        level_list = [level_price, buy_limit_orders_dict[exchange_name][1] + level_amount]
+                    else:
+                        level_list = [level_price, level_amount]
+                    buy_limit_orders_dict[exchange_name] = level_list
+                    return buy_limit_orders_dict
+                else:
+                    level_amount = float(ask_level.amount_dict[exchange_name])
+                    level_price = ask_level.price
+                    if exchange_name in buy_limit_orders_dict:
+                        level_list = [level_price, buy_limit_orders_dict[exchange_name][1] + level_amount]
+                    else:
+                        level_list = [level_price, level_amount]
+                    buy_limit_orders_dict[exchange_name] = level_list
+                    buy_amount += level_amount

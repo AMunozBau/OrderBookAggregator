@@ -23,8 +23,8 @@ class GeminiConnector(BaseExchangeConnector):
         response_json = response.json()
 
         # Extract ask and bid data from the response
-        asks_list = [[asks['price'], asks['amount']] for asks in response_json["asks"]]
-        bids_list = [[bids['price'], bids['amount']] for bids in response_json["bids"]]
+        asks_list = [[asks['price'], {"GEMINI": asks['amount']}] for asks in response_json["asks"]]
+        bids_list = [[bids['price'], {"GEMINI": bids['amount']}] for bids in response_json["bids"]]
 
         # Create an OrderBook object and update it with the retrieved data
         order_book = OrderBook()

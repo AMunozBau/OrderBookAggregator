@@ -23,8 +23,8 @@ class CoinBaseConnector(BaseExchangeConnector):
         response_json = response.json()
 
         # Extract ask and bid data from the response
-        asks_list = [[asks[0], asks[1]] for asks in response_json["asks"]]
-        bids_list = [[bids[0], bids[1]] for bids in response_json["bids"]]
+        asks_list = [[asks[0], {"COIN": asks[1]}] for asks in response_json["asks"]]
+        bids_list = [[bids[0], {"COIN": bids[1]}] for bids in response_json["bids"]]
 
         # Create an OrderBook object and update it with the retrieved data
         order_book = OrderBook()
